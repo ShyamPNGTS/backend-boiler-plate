@@ -53,6 +53,31 @@ class UserDao {
     }
   }
 
+  async getUserByMobileNumber(mobileNumber) {
+    try {
+      const userExist = await User.findOne({
+        mobileNumber: mobileNumber,
+      });
+      if (userExist != null) {
+        return {
+          message: "Successfully",
+          status: "success",
+          data: userExist,
+          code: 200,
+        };
+      } else {
+        return {
+          message: "User not found",
+          status: "failed",
+          data: null,
+          code: 201,
+        };
+      }
+    } catch (error) {
+      log.error("Error from [USER DAO]: ", error);
+      throw error;
+    }
+  }
   async getUserByResetToken(resetToken) {
     try {
       const userExist = await User.findOne({
@@ -113,7 +138,7 @@ class UserDao {
       }
       let result;
       result = await User.findOneAndUpdate({ email: data.email }, data, {
-        new: true,
+ new: true,
       });
 
       log.info("User saved");

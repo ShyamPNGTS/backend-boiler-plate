@@ -7,27 +7,21 @@ const log = require("../utils/helpers/logger.util");
  * @swagger
  * /auth/register:
  *   post:
- *     summary: Register a new creator
+ * summary: Creator Signup
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - name
- *               - email
- *               - mobileNumber
- *               - password
- *               - confirmPassword
  *             properties:
  *               name:
- *                 type: string
+ * type: string
  *               email:
- *                 type: string
- *                 format: email
+ * type: string
+ * format: email
  *               mobileNumber:
- *                 type: string
+ * type: string
  *               password:
  *                 type: string
  *               confirmPassword:
@@ -35,9 +29,9 @@ const log = require("../utils/helpers/logger.util");
  *     responses:
  *       201:
  *         description: Creator registered successfully. OTP sent for verification.
- *       400:
- *         description: Bad request, e.g., passwords don't match, user already exists.
- *       500:
+ * '400':
+ * description: Bad request (e.g., missing fields, passwords don't match).
+ * '500':
  *         description: Internal Server Error.
  */
 router.post("/register", async (req, res) => {
