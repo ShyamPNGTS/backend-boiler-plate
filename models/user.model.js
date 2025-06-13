@@ -12,9 +12,9 @@ const userSchema = mongoose.Schema(
       unique:true,
       required: true,
     },
-    accountId: {
+    mobile: {
       type: String,
-      unique:true,
+      unique: true,
       required: false,
     },
     email: {
@@ -34,10 +34,18 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    via: {
+    otp: {
       type: String,
-      required:true,
+      required: false,
     },
+    otpExpires: {
+      type: Date,
+      required: false,
+    },
+ role: {
+ type: String,
+ default: 'creator'
+ },
     emailToken: {
       type: String,
       required:false,
@@ -46,6 +54,18 @@ const userSchema = mongoose.Schema(
       type: String,
       required:false,
     },
+    channel: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Channel'
+    },
+    wallet: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Wallet'
+    },
+    creatorProfile: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'CreatorProfile'
+    }
   },
   { timestamps: true }
 );

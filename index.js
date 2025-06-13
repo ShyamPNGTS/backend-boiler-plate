@@ -42,8 +42,8 @@ app.use((req, res, next) => {
 app.use("/api/auth", AuthRouter);
 
 
-
-app.listen(PORT, () => {
-  // Start Express app server
-  log.info(`Express server listening to the port ${PORT}`);
+// Start Express app server
+app.listen(PORT || 3000, () => {
+  log.info(`Express server listening to the port ${PORT || 3000}`);
 });
+
