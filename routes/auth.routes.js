@@ -1,7 +1,45 @@
 const router = require("express").Router();
 const authController = require("../controllers/auth.controller");
+const log = require("../utils/helpers/logger.util");
 
 
+/**
+ * @swagger
+ * /auth/register:
+ *   post:
+ *     summary: Register a new creator
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - mobileNumber
+ *               - password
+ *               - confirmPassword
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               mobileNumber:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               confirmPassword:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Creator registered successfully. OTP sent for verification.
+ *       400:
+ *         description: Bad request, e.g., passwords don't match, user already exists.
+ *       500:
+ *         description: Internal Server Error.
+ */
 router.post("/register", async (req, res) => {
   try {
     const result = await authController.register(req, res);
@@ -12,6 +50,34 @@ router.post("/register", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     summary: Login a creator
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login successful. Returns a JWT token.
+ *       401:
+ *         description: Unauthorized, e.g., invalid credentials.
+ *       500:
+ *         description: Internal Server Error.
+ */
 router.post("/login", async (req, res) => {
   try {
     const result = await authController.login(req, res);

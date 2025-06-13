@@ -1,9 +1,12 @@
 require("dotenv").config();
 const express = require("express");
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
 const log = require("./configs/logger.config");
 const { PORT, SOCKET_PORT } = require("./configs/server.config");
+const swaggerDefinition = require("./configs/swagger.config");
 
 const { AuthRouter} = require("./routes/index");
 
@@ -39,6 +42,12 @@ app.use((req, res, next) => {
   next(); // Proceed to the next middleware or route handler
 });
 
+// Swagger setup
+const options = {
+  swaggerDefinition,
+  apis: ["./routes/*.js", "./models/*.js"], // Path to the API docs and models
+};
+const swaggerSpec = swaggerJsdoc(options);
 app.use("/api/auth", AuthRouter);
 
 
@@ -46,4 +55,7 @@ app.use("/api/auth", AuthRouter);
 app.listen(PORT || 3000, () => {
   log.info(`Express server listening to the port ${PORT || 3000}`);
 });
+
+// Serve Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
